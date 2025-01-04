@@ -14,7 +14,7 @@ def transcribe_audio(audio_path):
     print("CUDA available:", cuda_available)
 
     # Load the Whisper model using CUDA if available, otherwise use CPU
-    model = whisper.load_model("small", device="cuda" if cuda_available else "cpu")
+    model = whisper.load_model("large-v3-turbo", device="cuda" if cuda_available else "cpu")
 
     # Load and transcribe the audio file
     result = model.transcribe(audio_path)
