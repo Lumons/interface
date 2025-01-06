@@ -1,29 +1,32 @@
+#!/usr/bin/env python3
+
 import os
 import torch
 import whisper
 import warnings
 
+# Ignore FutureWarning from PyTorch module
 warnings.filterwarnings("ignore", category=FutureWarning, module="torch")
 
-INDEX_FILE = 'transcription_index.txt'  # This file will store the names of transcribed audio files
+INDEX_FILE = 'transcription_index.txt'  # File to store names of transcribed audio files
 
 def transcribe_audio(audio_path):
     """Transcribes the given audio file and saves the transcription to a .txt file."""
-    # Print whether CUDA is available or not
+    # Check if CUDA is available
     cuda_available = torch.cuda.is_available()
     print("CUDA available:", cuda_available)
 
-    # Load the Whisper model using CUDA if available, otherwise use CPU
+    # Load Whisper model on GPU if available, otherwise use CPU
     model = whisper.load_model("large-v3-turbo", device="cuda" if cuda_available else "cpu")
 
-    # Load and transcribe the audio file
+    # Transcribe the audio file
     result = model.transcribe(audio_path)
     print("Transcription:", result['text'])
 
-    # Get the base name of the audio file (without extension)
+    # Get base name of the audio file (without extension)
     base_name = os.path.splitext(audio_path)[0]
     
-    # Save transcription to a text file with the same base name
+    # Save transcription to a text file with same base name
     output_file = base_name + ".txt"
     with open(output_file, "w") as f:
         f.write(result['text'])
@@ -46,14 +49,14 @@ def update_transcription_index(audio_file):
 
 def transcribe_folder(folder_path):
     """Transcribes all audio files in the folder that are not in the transcription index."""
-    # Load the transcription index to avoid reprocessing files
+    # Load transcription index to avoid reprocessing files
     transcribed_files = load_transcription_index()
 
     # Loop through all files in the folder
     for file_name in os.listdir(folder_path):
         audio_path = os.path.join(folder_path, file_name)
 
-        # Only process .wav files (or other formats supported by Whisper)
+        # Only process .wav, .mp3, or .m4a files (other formats supported by Whisper)
         if os.path.isfile(audio_path) and file_name.endswith(('.wav', '.mp3', '.m4a')):
             
             # Check if the file has already been transcribed
@@ -63,7 +66,7 @@ def transcribe_folder(folder_path):
                 # Transcribe the audio file
                 transcribe_audio(audio_path)
 
-                # Update the index after successful transcription
+                # Update index after successful transcription
                 update_transcription_index(file_name)
             else:
                 print(f"Skipping {file_name}, already transcribed.")
