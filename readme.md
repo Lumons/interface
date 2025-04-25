@@ -32,6 +32,8 @@ In this way, Epistemic Interface not only aids in knowledge management but also 
 
 - *Cognitive Security Framework*: Designed with features to help ensure that your knowledge processes remain accurate, transparent, and free from cognitive overload or misinformation.
 
+[^1]: [Andy, C., & David, C. (1998). The extended mind. Analysis, 58(1), 7-19.](https://alice.id.tue.nl/references/clark-chalmers-1998.pdf)
+
 ## Scripts
 
 ### record_audio.py
