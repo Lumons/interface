@@ -4,7 +4,7 @@
 
 **Overview**
 
-In Clark and Chalmers' vision of the extended mind, they describe epistemic actions as follows:
+In Clark and Chalmers' vision of the extended mind[^1], they describe epistemic actions as follows:
 
 > "Epistemic actions alter the world so as to aid and augment cognitive processes such as recognition and search."
 
@@ -46,7 +46,7 @@ In this way, Epistemic Interface not only aids in knowledge management but also 
 
 ### Audio Log Processor.py
 
-The audio_log_processor.py script automates the process of transcribing audio files, generating embeddings from the transcriptions, and storing the results both locally and in a Supabase database. This is achieved through the following steps:
+The `audio_log_processor.py` script automates the process of transcribing audio files, generating embeddings from the transcriptions, and storing the results both locally and in a Supabase database. This is achieved through the following steps:
 
 **1. Environment Setup:**
 
@@ -58,7 +58,7 @@ It checks for a CUDA-enabled GPU to take advantage of hardware acceleration and 
 
 **3. Audio Transcription:**
 
-The script processes audio files found in a specified directory, transcribing them into text. It supports common audio formats such as .wav, .mp3, and .m4a.
+The script processes audio files found in a specified directory, transcribing them into text. It supports common audio formats such as `.wav`, `.mp3`, and `.m4a`.
 It tracks which files have already been transcribed using an index file (transcription_index.txt), ensuring that each file is only processed once.
   
 **4. Text Embedding:**
@@ -67,11 +67,11 @@ For each transcribed audio file, the script generates embeddings using LM Studio
 
 **5. Local Storage:**
 
-Metadata about each transcription, including the file name and the transcription text, is stored in a CSV file (audio_transcriptions.csv). This step facilitates easy access to transcription records in a tabular format.
+Metadata about each transcription, including the file name and the transcription text, is stored in a CSV file (`audio_transcriptions.csv`). This step facilitates easy access to transcription records in a tabular format.
 
 **6. Database Integration:**
 
-The script inserts each transcription, along with its embedding and relevant metadata, into a Supabase database table called 'log-entries'. This enables efficient storage and retrieval of the audio data for various applications, such as content analysis and data mining.
+The script inserts each transcription, along with its embedding and relevant metadata, into a Supabase database table called `'log-entries'`. This enables efficient storage and retrieval of the audio data for various applications, such as content analysis and data mining.
 
 **7. Index Maintenance:**
 
@@ -85,7 +85,7 @@ The script processes a document specified by the user, converting it into a mark
 **1. Document Conversion:**
 
 The script begins by loading a document from a specified file path or URL.
-Using the DocumentConverter, it converts the document into a markdown format. This step is essential for standardizing the document's formatting, making it easier to parse and analyze the text.
+Using the `DocumentConverter`, it converts the document into a markdown format. This step is essential for standardizing the document's formatting, making it easier to parse and analyze the text.
 
 **2. Markdown Extraction:**
 
