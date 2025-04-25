@@ -1,3 +1,5 @@
+![](documentation/media/lumo9838_epistemic_interface._Neo-renaissance_cyberpunk_knowled_9be5ed1a-efea-4f54-9916-eab2f338459d.png)
+
 # Epistemic Interface
 
 **Overview**
@@ -24,8 +26,6 @@ In this way, Epistemic Interface not only aids in knowledge management but also 
 
 - *Multi-Modal Knowledge Processing*: Organize, process, and manipulate different forms of data—text, documents, and more—through an integrated, high-tech interface.
 
-> "Epistemic actions alter the world so as to aid and augment cognitive processes such as recognition and search."
-
 - *Dynamic Knowledge Graphs*: Visualize relationships between ideas, concepts, and data points in real-time, supported by advanced AI and algorithmic tools for pattern recognition and insight generation.
 
 - *Interactive Search & Querying*: Easily search and interact with complex data, instantly extracting relevant insights or verifying information across multiple sources.
@@ -34,67 +34,73 @@ In this way, Epistemic Interface not only aids in knowledge management but also 
 
 ## Scripts
 
-### Audio Log Processor.py
+### record_audio.py
 
-**Description**
+- When run, checks for the existence of a state file which, if non-existent, creates, and then begins recording. If state indicates recording, then recording is stopped and the state file changed. Saves recording as date-time (`recording_%Y-%m-%d_%H-%M-%S.wav`)
+
+
+### transcriber.py
+
+- Checks an index file `transcription_index.txt` against available files. Transcribes using whisper, saves as txt file in the same folder and adds names to the index. Whisper model size can be changed with speed/ quality tradeoffs. Currently specified as latest and largest - intended function is a scheduled overnight job so not worried about how long it will take. May take a while if a batch have been added in bulk. 
+
+
+### Audio Log Processor.py
 
 The audio_log_processor.py script automates the process of transcribing audio files, generating embeddings from the transcriptions, and storing the results both locally and in a Supabase database. This is achieved through the following steps:
 
-1. Environment Setup:
+**1. Environment Setup:**
 
 The script initializes necessary configurations by loading environment variables for secure access to Supabase, avoiding any hardcoded credentials.
 
-2. Model Initialization:
+**2. Model Initialization:**
 
 It checks for a CUDA-enabled GPU to take advantage of hardware acceleration and loads the Whisper model, which is utilized for transcription tasks.
 
-3. Audio Transcription:
+**3. Audio Transcription:**
 
 The script processes audio files found in a specified directory, transcribing them into text. It supports common audio formats such as .wav, .mp3, and .m4a.
 It tracks which files have already been transcribed using an index file (transcription_index.txt), ensuring that each file is only processed once.
   
-  4. Text Embedding:
+**4. Text Embedding:**
 
 For each transcribed audio file, the script generates embeddings using LM Studio's embedding model. These embeddings represent the transcriptions in a numerical form that captures the semantic content, useful for machine learning and data retrieval tasks.
 
-5. Local Storage:
+**5. Local Storage:**
 
 Metadata about each transcription, including the file name and the transcription text, is stored in a CSV file (audio_transcriptions.csv). This step facilitates easy access to transcription records in a tabular format.
 
-6. Database Integration:
+**6. Database Integration:**
 
 The script inserts each transcription, along with its embedding and relevant metadata, into a Supabase database table called 'log-entries'. This enables efficient storage and retrieval of the audio data for various applications, such as content analysis and data mining.
 
-7. Index Maintenance:
+**7. Index Maintenance:**
 
 Each transcribed file is added to an index to prevent repetitive processing in future runs, promoting efficient resource utilization and streamlined operation.
 
 
 ### PDF_processor.py
 
-**Description**
-
 The script processes a document specified by the user, converting it into a markdown format, extracting text content from this format, embedding the text using a language model, and then storing the processed data in a Supabase database. Here's how it achieves this:
 
-1. Document Conversion:
+**1. Document Conversion:**
 
 The script begins by loading a document from a specified file path or URL.
 Using the DocumentConverter, it converts the document into a markdown format. This step is essential for standardizing the document's formatting, making it easier to parse and analyze the text.
 
-2. Markdown Extraction:
+**2. Markdown Extraction:**
 
 The converted document's content is exported to markdown and printed to the console for preview.
 The markdown content is then used to create a Document object.
 
-3. Node Parsing:
+**3. Node Parsing:**
 
 A node parser, specifically a `MarkdownNodeParser`, is initialized to extract discrete text segments or "nodes" from the markdown content. These nodes represent chunks of text parsed from the document.
 
-4. Text Embedding:
+**4. Text Embedding:**
 
 For each text node, the script uses the LM Studio's embedding model, `nomic-embed-text-v1.5`, to generate embeddings. Embeddings are numerical representations of the text that capture semantic meaning, useful in various machine learning applications like similarity searches.
 
-5. Data Storage:
+**5. Data Storage:**
 
 The script prepares a list of these text nodes, including their embeddings and metadata, and saves this list to a JSON file named `embedded_nodes.json`.
 
